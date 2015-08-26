@@ -23,7 +23,12 @@ def main():
 def event_handler(event, response):
     line, data = response.split('\n', 1)
     headers = dict([x.split(':') for x in line.split()])
-    print '%s %s | %s' % (headers['processname'], headers['channel'], data)
+    channel = headers['channel']
+    output = '%s %s | %s' % (headers['processname'], channel, data)
+    if channel == 'stderr':
+        write_stderr(output)
+    else:
+        write_stdout(output)
 
 if __name__ == '__main__':
     main()
